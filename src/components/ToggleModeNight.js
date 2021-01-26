@@ -6,10 +6,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 
 import 'react-toggle/style.css';
-import './ToggleMode.scss';
+import './ToggleModeNight.scss';
 
-const ToggleMode = ({ mode, onChange }) => (
-	<div className="ToggleMode">
+const ToggleModeNight = ({ mode, onChange }) => (
+	<div className="ToggleModeNight">
 		<Toggle
 			id="mode"
 			icons={{
@@ -28,9 +28,9 @@ const ToggleMode = ({ mode, onChange }) => (
 	</div>
 );
 
-ToggleMode.propTypes = {
+ToggleModeNight.propTypes = {
 	mode: PropTypes.bool.isRequired,
 	onChange: PropTypes.func.isRequired,
 };
 
-export default ToggleMode;
+export default ToggleModeNight;

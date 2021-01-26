@@ -4,7 +4,7 @@ import fetchItunesSongs from './lib/fetchItunesSongs';
 import useLocalStorage from './lib/useLocalStorage';
 
 import AudioPlayer from './components/AudioPlayer';
-import ToggleMode from './components/ToggleMode';
+import ToggleMode from './components/ToggleModeNight';
 import SearchHistory from './components/SearchHistory';
 import SongList from './components/Track/List';
 import SongSearch from './components/Track/Search';
