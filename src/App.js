@@ -1,17 +1,17 @@
 import React, { useState, useCallback } from 'react';
 
-import fetchItunesSongs from './lib/fetchItunesSongs';
+import { fetchItunesSongs } from './lib/fetchItunesSongs';
 import useLocalStorage from './lib/useLocalStorage';
 
-import AudioPlayer from './components/AudioPlayer';
-import ToggleMode from './components/ToggleModeNight';
-import SearchHistory from './components/SearchHistory';
-import SongList from './components/Track/List';
-import SongSearch from './components/Track/Search';
+import { AudioPlayer } from './components/AudioPlayer';
+import { ToggleModeNight } from './components/ToggleModeNight';
+import { SearchHistory } from './components/SearchHistory';
+import { TrackList } from './components/Track/List';
+import { TrackSearch } from './components/Track/Search';
 
 import './App.scss';
 
-function App() {
+const App = () => {
 	const [currentTrack, setCurrentTrack] = useState(null);
 	const [error, setError] = useState(false);
 	const [loading, setLoading] = useState(false);
@@ -34,7 +34,6 @@ function App() {
 	// 	console.log('useeffect', storageMode);
 	// 	setDarkMode(storageMode);
 	// }, [setDarkMode, storageMode]);
-
 
 	const handleSearchClick = async (term) => {
 		setLoading(true);
@@ -70,17 +69,17 @@ function App() {
 		<div className={`App ${storageMode ? 'dark' : 'light'}`}>
 			<div className="container">
 				<section className="track-section">
-					<ToggleMode
+					<ToggleModeNight
 						onChange={handleChangeMode}
 						mode={storageMode}
 					/>
 					<header className="App-header">
 						<h1>ITUNES API</h1>
 					</header>
-					<SongSearch onClick={handleSearchClick} />
+					<TrackSearch onClick={handleSearchClick} />
 					{noResult && <p>Pas de résultat</p>}
 					{error && <p>Une erreur est survenue</p>}
-					<SongList
+					<TrackList
 						tracks={tracks}
 						onClickTrack={handleClickTrack}
 						loading={loading}
@@ -91,6 +90,6 @@ function App() {
 			<AudioPlayer track={currentTrack} />
 		</div>
 	);
-}
+};
 
 export default App;

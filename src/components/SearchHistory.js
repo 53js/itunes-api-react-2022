@@ -1,9 +1,8 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 
 import './SearchHistory.scss';
 
-const SearchHistory = ({ searchs }) => (
+export const SearchHistory = ({ searchs }) => (
 	<aside className="SearchHistory">
 		{!!searchs.length && <h2>History</h2> }
 		<ul>
@@ -20,5 +19,3 @@ SearchHistory.propTypes = {
 SearchHistory.defaultProps = {
 	searchs: [],
 };
-
-export default SearchHistory;
