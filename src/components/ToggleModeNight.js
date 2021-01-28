@@ -4,7 +4,6 @@ import Toggle from 'react-toggle';
 import { faMoon, faSun } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-
 import 'react-toggle/style.css';
 import './ToggleModeNight.scss';
 

@@ -12,4 +12,3 @@ export const fetchItunesSongs = async (term) => {
 		throw err;
 	}
 };
-
