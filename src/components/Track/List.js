@@ -1,13 +1,12 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 
-import Track from './Track';
+import { Track } from './Track';
 
 import './List.scss';
 
-const TrackList = ({ loading, onClickTrack, tracks }) => (
+export const TrackList = ({ loading, onClickTrack, tracks }) => (
 	<div className="TrackList">
 		<p>
 			{loading && (
@@ -32,5 +31,3 @@ TrackList.defaultProps = {
 	loading: false,
 	tracks: [],
 };
-
-export default TrackList;

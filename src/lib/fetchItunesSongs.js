@@ -1,6 +1,6 @@
 const API = 'https://itunes.apple.com/search';
 
-const fetchItunesSongs = async (term) => {
+export const fetchItunesSongs = async (term) => {
 	try {
 		const url = `${API}?term=${term}`;
 		const response = await fetch(url);
@@ -12,6 +12,3 @@ const fetchItunesSongs = async (term) => {
 		throw err;
 	}
 };
-
-
-export default fetchItunesSongs;

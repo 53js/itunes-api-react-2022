@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import './Track.scss';
 import { Link } from 'react-router-dom';
 
-const Track = ({ track, onClickTrack }) => {
+export const Track = ({ track, onClickTrack }) => {
 	const handleOnClick = useCallback(() => {
 		onClickTrack(track);
 	}, [onClickTrack, track]);
@@ -30,6 +30,3 @@ Track.propTypes = {
 	}).isRequired,
 	onClickTrack: PropTypes.func.isRequired,
 };
-
-
-export default Track;

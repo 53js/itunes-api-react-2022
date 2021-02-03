@@ -1,20 +1,20 @@
-import React, { useState, useCallback } from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { useState, useCallback } from 'react';
+import { Route, Switch } from 'react-router-dom';
 
-import fetchItunesSongs from '../lib/fetchItunesSongs';
+import { fetchItunesSongs } from '../lib/fetchItunesSongs';
 import useLocalStorage from '../lib/useLocalStorage';
 
-import AudioPlayer from '../components/AudioPlayer';
-import TrackDetails from '../components/Track/Details';
-import ToggleMode from '../components/ToggleMode';
-import SearchHistory from '../components/SearchHistory';
-import SongList from '../components/Track/List';
-import SongSearch from '../components/Track/Search';
+import { AudioPlayer } from '../components/AudioPlayer';
+import { ToggleModeNight } from '../components/ToggleModeNight';
+import { SearchHistory } from '../components/SearchHistory';
+import { TrackList } from '../components/Track/List';
+import { TrackSearch } from '../components/Track/Search';
+import { TrackDetails } from '../components/Track/Details';
 
 import './Itunes.scss';
 
-const App = () => {
-	const [currentTrack, setCurrentTrack] = useState(null);
+export const Itunes = () => {
+	const [currentTrack, setCurrentTrack] = useState();
 	const [error, setError] = useState(false);
 	const [loading, setLoading] = useState(false);
 	const [noResult, setNoResult] = useState(false);
@@ -36,7 +36,6 @@ const App = () => {
 	// 	console.log('useeffect', storageMode);
 	// 	setDarkMode(storageMode);
 	// }, [setDarkMode, storageMode]);
-
 
 	const handleSearchClick = async (term) => {
 		setLoading(true);
@@ -72,25 +71,26 @@ const App = () => {
 		<div className={`Itunes ${storageMode ? 'dark' : 'light'}`}>
 			<div className="container">
 				<section className="track-section">
-					<ToggleMode
+					<ToggleModeNight
 						onChange={handleChangeMode}
 						mode={storageMode}
 					/>
-					<header className="Itunes-header">
+					<header className="App-header">
 						<h1>ITUNES API</h1>
 					</header>
-					<SongSearch onClick={handleSearchClick} />
+					<TrackSearch onClick={handleSearchClick} />
 					{noResult && <p>Pas de résultat</p>}
 					{error && <p>Une erreur est survenue</p>}
+
 					<Switch>
 						<Route exact path="/itunes">
-							<SongList
+							<TrackList
 								tracks={tracks}
 								onClickTrack={handleClickTrack}
 								loading={loading}
 							/>
 						</Route>
-						<Route path="/itunes/track/:trackname">
+						<Route exact path="/itunes/track/:trackname">
 							<TrackDetails track={currentTrack} />
 						</Route>
 					</Switch>
@@ -101,5 +101,3 @@ const App = () => {
 		</div>
 	);
 };
-
-export default App;
