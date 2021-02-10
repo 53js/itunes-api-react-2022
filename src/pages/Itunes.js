@@ -12,7 +12,7 @@ import { SearchHistory } from '../components/SearchHistory';
 import { TrackList } from '../components/Track/List';
 import { TrackSearch } from '../components/Track/Search';
 import { TrackDetails } from '../components/Track/Details';
-import { ThemeContext } from '../components/ThemeContext';
+import { ThemeContext } from '../context/ThemeContext';
 
 import './Itunes.scss';
 

@@ -9,7 +9,7 @@ import { Home } from './pages/Home';
 import { Itunes } from './pages/Itunes';
 import { Error404 } from './pages/Error404';
 import useLocalStorage from './lib/useLocalStorage';
-import { ThemeContext } from './components/ThemeContext';
+import { ThemeContext } from './context/ThemeContext';
 import './App.scss';
 
 const App = () => {
