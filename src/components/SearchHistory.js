@@ -25,8 +25,9 @@ export const SearchHistory = () => {
 			)}
 
 			<ul>
-				{(state.history || []).map((s) => (
-					<li>{s}</li>
+				{(state.history || []).map((s, i) => (
+					// eslint-disable-next-line react/no-array-index-key
+					<li key={i}>{s}</li>
 				))}
 			</ul>
 		</aside>

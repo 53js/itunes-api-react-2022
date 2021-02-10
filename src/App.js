@@ -27,10 +27,10 @@ const App = () => {
 	}, [storageMode]);
 
 	return (
-		<Router>
-			<Switch>
-				<ThemeContext.Provider value={{ theme, changeThemeContext }}>
-					<HistoryContextProvider>
+		<ThemeContext.Provider value={{ theme, changeThemeContext }}>
+			<HistoryContextProvider>
+				<Router>
+					<Switch>
 						<Route path={[
 							'/itunes/:search',
 							'/itunes',
@@ -38,16 +38,16 @@ const App = () => {
 						>
 							<Itunes />
 						</Route>
-					</HistoryContextProvider>
-				</ThemeContext.Provider>
-				<Route exact path="/">
-					<Home />
-				</Route>
-				<Route path="*">
-					<Error404 />
-				</Route>
-			</Switch>
-		</Router>
+						<Route exact path="/">
+							<Home />
+						</Route>
+						<Route path="*">
+							<Error404 />
+						</Route>
+					</Switch>
+				</Router>
+			</HistoryContextProvider>
+		</ThemeContext.Provider>
 	);
 };
 
