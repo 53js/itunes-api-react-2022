@@ -1,5 +1,5 @@
 import {
-	useState, useEffect, useContext, useCallback,
+	useState, useEffect, useContext, useCallback, useRef,
 } from 'react';
 import {
 	Route, Switch, useHistory, useRouteMatch,
@@ -21,6 +21,8 @@ import { ADD_TO_HISTORY, HistoryContext } from '../context/HistoryContext';
 
 export const Itunes = () => {
 	const match = useRouteMatch();
+	const load = useRef(false);
+
 	const history = useHistory();
 	const { dispatch } = useContext(HistoryContext);
 	const { theme } = useContext(ThemeContext);
@@ -57,10 +59,12 @@ export const Itunes = () => {
 	}, [dispatch]);
 
 	useEffect(() => {
-		if (match.params.search && !loading && match.isExact) {
-			searchRequest(match.params.search);
+		if (match.isExact && match.params.search && !load.current) {
+			load.current = true;
+			searchRequest(match.params.search).finally(() => {
+				load.current = false;
+			});
 		}
-	// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [match, searchRequest]);
 
 	const handleClickTrack = (track) => {
@@ -69,7 +73,6 @@ export const Itunes = () => {
 
 	const handleSearchClick = async (term) => {
 		history.push(`./${term}`);
-		searchRequest(term);
 	};
 
 	return (
