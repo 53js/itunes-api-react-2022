@@ -1,4 +1,6 @@
-import { useState, useEffect, useContext } from 'react';
+import {
+	useState, useEffect, useContext, useCallback,
+} from 'react';
 import {
 	Route, Switch, useHistory, useRouteMatch,
 } from 'react-router-dom';
@@ -15,26 +17,22 @@ import { TrackDetails } from '../components/Track/Details';
 import { ThemeContext } from '../context/ThemeContext';
 
 import './Itunes.scss';
+import { ADD_TO_HISTORY, HistoryContext } from '../context/HistoryContext';
 
 export const Itunes = () => {
 	const match = useRouteMatch();
 	const history = useHistory();
+	const { dispatch } = useContext(HistoryContext);
 	const { theme } = useContext(ThemeContext);
 	const [currentTrack, setCurrentTrack] = useState();
 	const [error, setError] = useState(false);
 	const [loading, setLoading] = useState(false);
 	const [noResult, setNoResult] = useState(false);
 	const [tracks, setTracks] = useState([]);
-	const [searchs, setSearchs] = useState([]);
 
-	const handleSearchClick = async (term) => {
-		history.push(`./${term}`);
-	};
-
-	const searchRequest = async (term) => {
+	const searchRequest = useCallback(async (term) => {
 		setLoading(true);
 		setError(false);
-		setSearchs((prev) => [...prev, term]);
 		try {
 			const response = await fetchItunesSongs(term);
 			if (response.resultCount === 0) {
@@ -54,18 +52,24 @@ export const Itunes = () => {
 			setError(true);
 		} finally {
 			setLoading(false);
+			dispatch({ type: ADD_TO_HISTORY, payload: term });
 		}
-	};
+	}, [dispatch]);
 
 	useEffect(() => {
-		const { params: { search } } = match;
-		if (search) {
-			searchRequest(search);
+		if (match.params.search && !loading && match.isExact) {
+			searchRequest(match.params.search);
 		}
-	}, [match]);
+	// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [match, searchRequest]);
 
 	const handleClickTrack = (track) => {
 		setCurrentTrack(track);
+	};
+
+	const handleSearchClick = async (term) => {
+		history.push(`./${term}`);
+		searchRequest(term);
 	};
 
 	return (
@@ -84,7 +88,7 @@ export const Itunes = () => {
 						<Route exact path="/itunes/track/:trackname">
 							<TrackDetails track={currentTrack} />
 						</Route>
-						<Route path="/itunes">
+						<Route exact path={['/itunes', '/itunes/:search']}>
 							<TrackList
 								tracks={tracks}
 								onClickTrack={handleClickTrack}
@@ -93,7 +97,7 @@ export const Itunes = () => {
 						</Route>
 					</Switch>
 				</section>
-				<SearchHistory searchs={searchs} />
+				<SearchHistory />
 			</Container>
 			<AudioPlayer track={currentTrack} />
 		</div>

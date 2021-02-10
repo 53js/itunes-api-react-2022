@@ -1,21 +1,34 @@
-import PropTypes from 'prop-types';
+import { faSync } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useContext } from 'react';
+import { Button } from 'reactstrap';
+import { HistoryContext, RESET } from '../context/HistoryContext';
 
 import './SearchHistory.scss';
 
-export const SearchHistory = ({ searchs }) => (
-	<aside className="SearchHistory">
-		{!!searchs.length && <h2>History</h2> }
-		<ul>
-			{(searchs || []).map((s) => (
-				<li>{s}</li>
-			))}
-		</ul>
-	</aside>
-);
+export const SearchHistory = () => {
+	const { state, dispatch } = useContext(HistoryContext);
+	const handleClickReset = () => {
+		dispatch({ type: RESET });
+	};
 
-SearchHistory.propTypes = {
-	searchs: PropTypes.arrayOf(PropTypes.string),
-};
-SearchHistory.defaultProps = {
-	searchs: [],
+	return (
+		<aside className="SearchHistory">
+			{!!state.history.length && (
+				<div className="mb-2">
+					<h2>History</h2>
+					<Button size="sm" onClick={handleClickReset}>
+						<FontAwesomeIcon icon={faSync} className="mr-2" />
+						reset
+					</Button>
+				</div>
+			)}
+
+			<ul>
+				{(state.history || []).map((s) => (
+					<li>{s}</li>
+				))}
+			</ul>
+		</aside>
+	);
 };

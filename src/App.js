@@ -10,6 +10,7 @@ import { Itunes } from './pages/Itunes';
 import { Error404 } from './pages/Error404';
 import useLocalStorage from './lib/useLocalStorage';
 import { ThemeContext } from './context/ThemeContext';
+import { HistoryContextProvider } from './context/HistoryContext';
 import './App.scss';
 
 const App = () => {
@@ -29,13 +30,15 @@ const App = () => {
 		<Router>
 			<Switch>
 				<ThemeContext.Provider value={{ theme, changeThemeContext }}>
-					<Route path={[
-						'/itunes/:search',
-						'/itunes',
-					]}
-					>
-						<Itunes />
-					</Route>
+					<HistoryContextProvider>
+						<Route path={[
+							'/itunes/:search',
+							'/itunes',
+						]}
+						>
+							<Itunes />
+						</Route>
+					</HistoryContextProvider>
 				</ThemeContext.Provider>
 				<Route exact path="/">
 					<Home />
