@@ -4,7 +4,6 @@ import {
 	Switch,
 	Route,
 } from 'react-router-dom';
-import { Container } from 'reactstrap';
 
 import { Home } from './pages/Home';
 import { Itunes } from './pages/Itunes';
@@ -14,19 +13,17 @@ import './App.scss';
 
 const App = () => (
 	<Router>
-		<Container className="App">
-			<Switch>
-				<Route path="/itunes">
-					<Itunes />
-				</Route>
-				<Route exact path="/">
-					<Home />
-				</Route>
-				<Route path="*">
-					<Error404 />
-				</Route>
-			</Switch>
-		</Container>
+		<Switch>
+			<Route path="/itunes">
+				<Itunes />
+			</Route>
+			<Route exact path="/">
+				<Home />
+			</Route>
+			<Route path="*">
+				<Error404 />
+			</Route>
+		</Switch>
 	</Router>
 );
 

@@ -1,5 +1,6 @@
 import { useState, useCallback } from 'react';
 import { Route, Switch } from 'react-router-dom';
+import { Container } from 'reactstrap';
 
 import { fetchItunesSongs } from '../lib/fetchItunesSongs';
 import useLocalStorage from '../lib/useLocalStorage';
@@ -69,7 +70,7 @@ export const Itunes = () => {
 
 	return (
 		<div className={`Itunes ${storageMode ? 'dark' : 'light'}`}>
-			<div className="container">
+			<Container>
 				<section className="track-section">
 					<ToggleModeNight
 						onChange={handleChangeMode}
@@ -96,7 +97,7 @@ export const Itunes = () => {
 					</Switch>
 				</section>
 				<SearchHistory searchs={searchs} />
-			</div>
+			</Container>
 			<AudioPlayer track={currentTrack} />
 		</div>
 	);
