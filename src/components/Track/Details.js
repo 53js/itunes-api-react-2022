@@ -4,11 +4,15 @@ import './Details.scss';
 import { Link, Redirect } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import { useContext } from 'react';
+import { ThemeContext } from '../ThemeContext';
 
 export const TrackDetails = ({ track }) => {
+	const { theme } = useContext(ThemeContext);
 	if (!track) {
 		return (<Redirect to="/itunes/" />);
 	}
+
 	return (
 		<section className="TrackDetails">
 			<h1>{track.artistName}</h1>
@@ -27,7 +31,7 @@ export const TrackDetails = ({ track }) => {
 					)
 				}
 			</ul>
-			<Link to="/itunes/" className="text-dark">
+			<Link to="/itunes/" className={`${theme === 'dark' ? 'text-white' : 'text-dark'}`}>
 				<FontAwesomeIcon icon={faArrowLeft} />
 				<span className="ml-2">back</span>
 			</Link>

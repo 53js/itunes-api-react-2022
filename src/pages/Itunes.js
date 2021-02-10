@@ -1,9 +1,10 @@
-import { useState, useCallback } from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { useState, useEffect, useContext } from 'react';
+import {
+	Route, Switch, useHistory, useRouteMatch,
+} from 'react-router-dom';
 import { Container } from 'reactstrap';
 
 import { fetchItunesSongs } from '../lib/fetchItunesSongs';
-import useLocalStorage from '../lib/useLocalStorage';
 
 import { AudioPlayer } from '../components/AudioPlayer';
 import { ToggleModeNight } from '../components/ToggleModeNight';
@@ -11,10 +12,14 @@ import { SearchHistory } from '../components/SearchHistory';
 import { TrackList } from '../components/Track/List';
 import { TrackSearch } from '../components/Track/Search';
 import { TrackDetails } from '../components/Track/Details';
+import { ThemeContext } from '../components/ThemeContext';
 
 import './Itunes.scss';
 
 export const Itunes = () => {
+	const match = useRouteMatch();
+	const history = useHistory();
+	const { theme } = useContext(ThemeContext);
 	const [currentTrack, setCurrentTrack] = useState();
 	const [error, setError] = useState(false);
 	const [loading, setLoading] = useState(false);
@@ -22,23 +27,11 @@ export const Itunes = () => {
 	const [tracks, setTracks] = useState([]);
 	const [searchs, setSearchs] = useState([]);
 
-	const [storageMode, setStorageMode] = useLocalStorage('darkmode');
-
-	const handleChangeMode = useCallback(
-		(e) => {
-			const modeValue = !!e.target.checked;
-			//setDarkMode(modeValue);
-			setStorageMode(modeValue);
-		},
-		[setStorageMode],
-	);
-
-	// useEffect(() => {
-	// 	console.log('useeffect', storageMode);
-	// 	setDarkMode(storageMode);
-	// }, [setDarkMode, storageMode]);
-
 	const handleSearchClick = async (term) => {
+		history.push(`./${term}`);
+	};
+
+	const searchRequest = async (term) => {
 		setLoading(true);
 		setError(false);
 		setSearchs((prev) => [...prev, term]);
@@ -64,18 +57,22 @@ export const Itunes = () => {
 		}
 	};
 
+	useEffect(() => {
+		const { params: { search } } = match;
+		if (search) {
+			searchRequest(search);
+		}
+	}, [match]);
+
 	const handleClickTrack = (track) => {
 		setCurrentTrack(track);
 	};
 
 	return (
-		<div className={`Itunes ${storageMode ? 'dark' : 'light'}`}>
+		<div className={`Itunes ${theme}`}>
 			<Container>
 				<section className="track-section">
-					<ToggleModeNight
-						onChange={handleChangeMode}
-						mode={storageMode}
-					/>
+					<ToggleModeNight />
 					<header className="App-header">
 						<h1>ITUNES API</h1>
 					</header>
@@ -84,15 +81,15 @@ export const Itunes = () => {
 					{error && <p>Une erreur est survenue</p>}
 
 					<Switch>
-						<Route exact path="/itunes">
+						<Route exact path="/itunes/track/:trackname">
+							<TrackDetails track={currentTrack} />
+						</Route>
+						<Route path="/itunes">
 							<TrackList
 								tracks={tracks}
 								onClickTrack={handleClickTrack}
 								loading={loading}
 							/>
-						</Route>
-						<Route exact path="/itunes/track/:trackname">
-							<TrackDetails track={currentTrack} />
 						</Route>
 					</Switch>
 				</section>
