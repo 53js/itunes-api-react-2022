@@ -7,7 +7,7 @@ export const SearchHistory = ({ searchs }) => (
 		{!!searchs.length && <h2>History</h2> }
 		<ul>
 			{(searchs || []).map((s) => (
-				<li>{s}</li>
+				<li key={Math.random()}>{s}</li>
 			))}
 		</ul>
 	</aside>
