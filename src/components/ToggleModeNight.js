@@ -39,3 +39,7 @@ export const ToggleModeNight = () => {
 		</div>
 	);
 };
+
+ToggleModeNight.defaultProps = {
+	mode: false,
+};
