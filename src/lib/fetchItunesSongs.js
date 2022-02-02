@@ -5,6 +5,8 @@ export const fetchItunesSongs = async (term) => {
 		const url = `${API}?term=${term}`;
 		const response = await fetch(url);
 		const responseJson = await response.json();
+		res.setHeader('Access-Control-Allow-Origin', '*')
+  		res.setHeader('Content-Type', 'application/json')
 		return responseJson;
 	} catch (err) {
 		// eslint-disable-next-line no-console
