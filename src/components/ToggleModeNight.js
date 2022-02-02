@@ -28,6 +28,10 @@ export const ToggleModeNight = ({ mode, onChange }) => (
 );
 
 ToggleModeNight.propTypes = {
-	mode: PropTypes.bool.isRequired,
+	mode: PropTypes.bool,
 	onChange: PropTypes.func.isRequired,
+};
+
+ToggleModeNight.defaultProps = {
+	mode: false,
 };
